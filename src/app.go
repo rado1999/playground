@@ -2,7 +2,9 @@ package src
 
 import (
 	"project/config"
+	dbconnection "project/db_connection"
 	"project/src/users"
+	"project/src/users/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,10 +21,15 @@ func App() *gin.Engine {
 	server.SetTrustedProxies(nil)
 
 	setControllers(server)
+	setModels()
 
 	return server
 }
 
 func setControllers(server *gin.Engine) {
 	users.UsersController(server)
+}
+
+func setModels() {
+	dbconnection.DB.AutoMigrate(&models.User{})
 }
